@@ -145,10 +145,8 @@ body {
 
 /* Neubrutalism Input Styles */
 .input-brutal {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-block: 0.75rem;
+  padding-inline: 1rem;
   border: 3px solid #000;
   background-color: #fff;
   color: #000;

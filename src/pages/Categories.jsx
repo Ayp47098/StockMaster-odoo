@@ -147,13 +147,13 @@ export default function Categories() {
       {/* Search Bar */}
       <Card className="bg-white">
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none z-10" size={20} />
           <Input
             type="text"
             placeholder="Search categories by name or description..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-12"
+            className="pl-12! w-full"
           />
         </div>
       </Card>
