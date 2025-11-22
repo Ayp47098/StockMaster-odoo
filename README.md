@@ -5,28 +5,28 @@
 ![Supabase](https://img.shields.io/badge/Supabase-Database-3ECF8E?style=for-the-badge&logo=supabase)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1.17-38B2AC?style=for-the-badge&logo=tailwind-css)
 
-A modern, full-featured inventory management system built for the **Odoo x SPIT Hackathon 25**. Features a stunning **Neubrutalism design** with bold borders, hard shadows, and vibrant colors.
+A modern, full-featured inventory management system built for the **Odoo x SPIT Hackathon 25**, featuring a stunning **Neubrutalism design** with bold borders, hard shadows, and vibrant colors.
 
 ## ✨ Features
 
 ### 🎨 Neubrutalism Design
 - Bold 3px borders throughout the UI
-- Hard box shadows (4px-8px offset)
+- Hard box shadows with 4px-8px offset
 - Vibrant color palette
-- No subtle gradients - only bold, flat colors
+- Bold, flat colors—no subtle gradients
 - Brutalist typography with uppercase headings
 
 ### 📊 Core Functionality
-- **Dashboard** - Real-time overview with statistics and charts
-- **Product Management** - Full CRUD operations for inventory items
-- **Categories** - Organize products with color-coded categories
-- **Suppliers** - Manage supplier information and contacts
-- **Stock Movement** - Track stock in, stock out, and adjustments
-- **Reports & Analytics** - Visualize data with charts and graphs
-- **Low Stock Alerts** - Automatic notifications for low inventory
+- **Dashboard** – Real-time overview with statistics and charts
+- **Product Management** – Full CRUD operations for inventory items
+- **Categories** – Organize products with color-coded categories
+- **Suppliers** – Manage supplier information and contacts
+- **Stock Movement** – Track stock in, stock out, and adjustments
+- **Reports & Analytics** – Visualize data with charts and graphs
+- **Low Stock Alerts** – Automatic notifications for low inventory
 
 ### 🔐 Authentication
-- Secure login and signup with Supabase
+- Secure login and sign-up with Supabase
 - Protected routes
 - User profile management
 - Password reset functionality
@@ -35,13 +35,13 @@ A modern, full-featured inventory management system built for the **Odoo x SPIT 
 - Bar charts for product values
 - Pie charts for category distribution
 - Line charts for stock movement trends
-- Real-time statistics cards
+- Real-time statistics cards on the dashboard
 
 ## 🚀 Tech Stack
 
-- **Frontend:** React 19.2.0 + Vite
-- **Styling:** Tailwind CSS 4.1.17 (Neubrutalism design)
-- **Database:** Supabase (PostgreSQL)
+- **Frontend:** React 19.2.0 with Vite
+- **Styling:** Tailwind CSS 4.1.17 for Neubrutalism design
+- **Database:** Supabase with PostgreSQL
 - **Routing:** React Router DOM
 - **Charts:** Recharts
 - **Icons:** Lucide React
@@ -50,7 +50,7 @@ A modern, full-featured inventory management system built for the **Odoo x SPIT 
 ## 📋 Prerequisites
 
 - Node.js 18+ and npm
-- A Supabase account ([Sign up free](https://supabase.com))
+- A Supabase account ([sign up free](https://supabase.com))
 
 ## 🛠️ Setup Instructions
 
@@ -67,13 +67,13 @@ cd stockmaster-odoo
 npm install
 ```
 
-### 3. Setup Supabase
+### 3. Set Up Supabase
 
 1. Create a new project at [supabase.com](https://supabase.com)
-2. Go to Settings → API to get your project URL and anon key
+2. Go to Settings → API to get your project URL and anonymous key
 3. Open the SQL Editor in Supabase
-4. Run all the SQL commands from `DATABASE_SCHEMA.md` file in order:
-   - Create tables (profiles, categories, suppliers, products, stock_movements, alerts)
+4. Run all SQL commands from the `DATABASE_SCHEMA.md` file in order:
+   - Create tables: profiles, categories, suppliers, products, stock_movements, and alerts
    - Enable Row Level Security policies
    - Create triggers and functions
 
@@ -89,7 +89,7 @@ Edit `.env` and add your Supabase credentials:
 
 ```env
 VITE_SUPABASE_URL=your_supabase_project_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_SUPABASE_ANON_KEY=your_supabase_anonymous_key
 ```
 
 ### 5. Run the Development Server
@@ -98,31 +98,31 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 npm run dev
 ```
 
-The app will be available at `http://localhost:5173`
+The application will be available at `http://localhost:5173`
 
 ## 📱 Usage
 
-### First Time Setup
+### First-Time Setup
 
 1. **Sign Up:** Create a new account at `/signup`
 2. **Add Categories:** Navigate to Categories and create product categories
-3. **Add Suppliers:** Go to Suppliers and add your suppliers
+3. **Add Suppliers:** Go to Suppliers and add your supplier information
 4. **Add Products:** Create products with SKU, price, quantity, etc.
-5. **Track Stock:** Record stock movements (IN/OUT/ADJUSTMENT)
+5. **Track Stock:** Record stock movements (in/out/adjustment)
 6. **View Analytics:** Check the Reports page for insights
 
 ### Managing Products
 
-- **Add Product:** Click "Add Product" button, fill in details
-- **Edit Product:** Click edit icon in the product table
-- **Delete Product:** Click delete icon (confirms before deletion)
+- **Add Product:** Click the "Add Product" button and fill in the details
+- **Edit Product:** Click the edit icon in the product table
+- **Delete Product:** Click the delete icon (confirmation required)
 - **Search Products:** Use the search bar to filter by name or SKU
 
 ### Stock Movement
 
-- **Stock In:** Add inventory (e.g., new purchase)
-- **Stock Out:** Remove inventory (e.g., sale)
-- **Adjustment:** Set exact quantity (e.g., after physical count)
+- **Stock In:** Add inventory, such as from a new purchase
+- **Stock Out:** Remove inventory from sales or other purposes
+- **Adjustment:** Set the exact quantity, such as after a physical count
 
 ## 🎨 Design System
 
@@ -138,11 +138,11 @@ The app will be available at `http://localhost:5173`
 ### Components
 
 All components follow the neubrutalism design:
-- **Buttons:** Bold borders, hard shadows, hover animations
-- **Cards:** 6px shadow offset, 3px borders
-- **Inputs:** 3px borders, focus states with colored shadows
-- **Tables:** Alternating row colors, bold borders
-- **Modals:** 8px shadow offset, slide-in animations
+- **Buttons:** Bold borders, hard shadows, and hover animations
+- **Cards:** 6px shadow offset with 3px borders
+- **Inputs:** 3px borders with focus states and colored shadows
+- **Tables:** Alternating row colors with bold borders
+- **Modals:** 8px shadow offset with slide-in animations
 
 ## 📂 Project Structure
 
@@ -184,28 +184,28 @@ stockmaster-odoo/
 - User-specific data isolation
 - Secure authentication with Supabase Auth
 - Protected routes on the frontend
-- SQL injection prevention through Supabase client
+- SQL injection prevention via the Supabase client
 
 ## 🐛 Troubleshooting
 
-### Cannot connect to Supabase
-- Verify your `.env` file has correct credentials
-- Check if Supabase project is active
-- Ensure RLS policies are created
+### Cannot Connect to Supabase
+- Verify that your `.env` file contains correct credentials
+- Check if your Supabase project is active
+- Ensure RLS policies have been created
 
-### Products not showing
-- Make sure you've run all SQL from `DATABASE_SCHEMA.md`
-- Verify you're logged in with the correct account
-- Check browser console for errors
+### Products Not Showing
+- Make sure you have run all SQL commands from `DATABASE_SCHEMA.md`
+- Verify that you are logged in with the correct account
+- Check the browser console for errors
 
-### Charts not rendering
+### Charts Not Rendering
 - Ensure you have data in your database
-- Check if `recharts` package is installed
-- Verify products have valid prices and quantities
+- Check if the `recharts` package is installed
+- Verify that products have valid prices and quantities
 
 ## 📊 Database Schema
 
-See `DATABASE_SCHEMA.md` for complete schema documentation including:
+See `DATABASE_SCHEMA.md` for complete schema documentation, including:
 - Table structures
 - Relationships
 - RLS policies
@@ -213,7 +213,7 @@ See `DATABASE_SCHEMA.md` for complete schema documentation including:
 
 ## 🤝 Contributing
 
-This project was built for the Odoo x SPIT Hackathon 25. Feel free to fork and improve!
+This project was built for the Odoo x SPIT Hackathon 25. Feel free to fork and contribute improvements!
 
 ## 📄 License
 
