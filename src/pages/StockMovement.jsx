@@ -20,10 +20,8 @@ export default function StockMovement() {
   
   const [formData, setFormData] = useState({
     product_id: '',
-    type: 'IN',
+    type: 'in',
     quantity: 0,
-    reason: '',
-    reference_number: '',
     notes: ''
   })
 
@@ -33,8 +31,6 @@ export default function StockMovement() {
 
   const fetchData = async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser()
-      
       // Fetch stock movements
       const { data: movementsData, error: movementsError } = await supabase
         .from('stock_movements')
@@ -42,7 +38,6 @@ export default function StockMovement() {
           *,
           products(id, name, sku)
         `)
-        .eq('user_id', user.id)
         .order('created_at', { ascending: false })
         .limit(100)
       
@@ -53,7 +48,6 @@ export default function StockMovement() {
       const { data: productsData } = await supabase
         .from('products')
         .select('id, name, sku, quantity')
-        .eq('user_id', user.id)
       setProducts(productsData || [])
 
     } catch (error) {
@@ -67,10 +61,8 @@ export default function StockMovement() {
   const handleOpenModal = () => {
     setFormData({
       product_id: '',
-      type: 'IN',
+      type: 'in',
       quantity: 0,
-      reason: '',
-      reference_number: '',
       notes: ''
     })
     setModalOpen(true)
@@ -86,15 +78,12 @@ export default function StockMovement() {
     setError('')
     
     try {
-      const { data: { user } } = await supabase.auth.getUser()
-      
       // Insert stock movement
       const { error: insertError } = await supabase
         .from('stock_movements')
         .insert([{
           ...formData,
-          quantity: parseInt(formData.quantity),
-          user_id: user.id
+          quantity: parseInt(formData.quantity)
         }])
       
       if (insertError) throw insertError
@@ -104,20 +93,17 @@ export default function StockMovement() {
       if (!product) throw new Error('Product not found')
 
       let newQuantity = product.quantity
-      if (formData.type === 'IN') {
+      if (formData.type === 'in') {
         newQuantity += parseInt(formData.quantity)
-      } else if (formData.type === 'OUT') {
+      } else if (formData.type === 'out') {
         newQuantity -= parseInt(formData.quantity)
         if (newQuantity < 0) throw new Error('Insufficient stock')
-      } else if (formData.type === 'ADJUSTMENT') {
-        newQuantity = parseInt(formData.quantity)
       }
 
       const { error: updateError } = await supabase
         .from('products')
         .update({ quantity: newQuantity })
         .eq('id', formData.product_id)
-        .eq('user_id', user.id)
       
       if (updateError) throw updateError
       
@@ -133,18 +119,16 @@ export default function StockMovement() {
 
   const getMovementIcon = (type) => {
     switch (type) {
-      case 'IN': return <TrendingUp size={20} className="text-green-600" />
-      case 'OUT': return <TrendingDown size={20} className="text-red-600" />
-      case 'ADJUSTMENT': return <RefreshCw size={20} className="text-blue-600" />
+      case 'in': return <TrendingUp size={20} className="text-green-600" />
+      case 'out': return <TrendingDown size={20} className="text-red-600" />
       default: return null
     }
   }
 
   const getMovementBadge = (type) => {
     switch (type) {
-      case 'IN': return <Badge variant="success">Stock In</Badge>
-      case 'OUT': return <Badge variant="danger">Stock Out</Badge>
-      case 'ADJUSTMENT': return <Badge variant="info">Adjustment</Badge>
+      case 'in': return <Badge variant="success">Stock In</Badge>
+      case 'out': return <Badge variant="danger">Stock Out</Badge>
       default: return null
     }
   }
@@ -196,16 +180,6 @@ export default function StockMovement() {
                     <div>
                       <span className="font-bold">Date:</span> {format(new Date(movement.created_at), 'MMM dd, yyyy HH:mm')}
                     </div>
-                    {movement.reason && (
-                      <div className="col-span-2">
-                        <span className="font-bold">Reason:</span> {movement.reason}
-                      </div>
-                    )}
-                    {movement.reference_number && (
-                      <div>
-                        <span className="font-bold">Ref:</span> {movement.reference_number}
-                      </div>
-                    )}
                     {movement.notes && (
                       <div className="col-span-2">
                         <span className="font-bold">Notes:</span> {movement.notes}
@@ -256,32 +230,17 @@ export default function StockMovement() {
             onChange={(e) => setFormData({ ...formData, type: e.target.value })}
             required
           >
-            <option value="IN">Stock In (Add)</option>
-            <option value="OUT">Stock Out (Remove)</option>
-            <option value="ADJUSTMENT">Adjustment (Set to specific value)</option>
+            <option value="in">Stock In (Add)</option>
+            <option value="out">Stock Out (Remove)</option>
           </Select>
 
           <Input
             type="number"
-            label={formData.type === 'ADJUSTMENT' ? 'Set Quantity To' : 'Quantity'}
+            label="Quantity"
             value={formData.quantity}
             onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
             required
             min="0"
-          />
-
-          <Input
-            label="Reason"
-            value={formData.reason}
-            onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
-            placeholder="e.g., Purchase, Sale, Damage, etc."
-          />
-
-          <Input
-            label="Reference Number"
-            value={formData.reference_number}
-            onChange={(e) => setFormData({ ...formData, reference_number: e.target.value })}
-            placeholder="e.g., PO-12345, INV-67890"
           />
 
           <TextArea
