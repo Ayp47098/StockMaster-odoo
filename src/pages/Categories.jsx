@@ -128,9 +128,9 @@ export default function Categories() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-4xl font-black uppercase">Categories</h1>
-        <Button variant="primary" onClick={() => handleOpenModal()}>
-          <Plus size={20} className="mr-2" />
-          Add Category
+        <Button variant="primary" onClick={() => handleOpenModal()} className="flex items-center gap-2">
+          <Plus size={20} />
+          <span>Add Category</span>
         </Button>
       </div>
 
@@ -156,18 +156,18 @@ export default function Categories() {
                 <Button 
                   variant="primary" 
                   onClick={() => handleOpenModal(category)}
-                  className="flex-1"
+                  className="flex-1 flex items-center justify-center gap-2"
                 >
-                  <Edit size={16} className="mr-2" />
-                  Edit
+                  <Edit size={16} />
+                  <span>Edit</span>
                 </Button>
                 <Button 
                   variant="danger" 
                   onClick={() => handleDelete(category.id)}
-                  className="flex-1"
+                  className="flex-1 flex items-center justify-center gap-2"
                 >
-                  <Trash2 size={16} className="mr-2" />
-                  Delete
+                  <Trash2 size={16} />
+                  <span>Delete</span>
                 </Button>
               </div>
             </Card>

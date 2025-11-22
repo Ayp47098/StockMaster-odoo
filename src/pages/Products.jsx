@@ -178,9 +178,9 @@ export default function Products() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-4xl font-black uppercase">Products</h1>
-        <Button variant="primary" onClick={() => handleOpenModal()}>
-          <Plus size={20} className="mr-2" />
-          Add Product
+        <Button variant="primary" onClick={() => handleOpenModal()} className="flex items-center gap-2">
+          <Plus size={20} />
+          <span>Add Product</span>
         </Button>
       </div>
 
@@ -190,13 +190,13 @@ export default function Products() {
       {/* Search Bar */}
       <Card className="bg-white">
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2" size={20} />
+          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none z-10" size={20} />
           <Input
             type="text"
             placeholder="Search products by name or SKU..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-12"
+            className="!pl-12 w-full"
           />
         </div>
       </Card>
@@ -251,15 +251,17 @@ export default function Products() {
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleOpenModal(product)}
-                          className="p-2 bg-blue-500 text-white border-2 border-black hover:bg-blue-600"
+                          className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white border-2 border-black hover:bg-blue-600 font-bold transition-colors"
                         >
                           <Edit size={16} />
+                          <span>Edit</span>
                         </button>
                         <button
                           onClick={() => handleDelete(product.id)}
-                          className="p-2 bg-red-500 text-white border-2 border-black hover:bg-red-600"
+                          className="flex items-center gap-2 px-3 py-2 bg-red-500 text-white border-2 border-black hover:bg-red-600 font-bold transition-colors"
                         >
                           <Trash2 size={16} />
+                          <span>Delete</span>
                         </button>
                       </div>
                     </td>

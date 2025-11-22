@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../config/supabase'
+import { useAuth } from '../context/AuthContext'
 import { Card } from '../components/ui/Card'
 import { Loading } from '../components/ui/Loading'
 import { Package, ShoppingCart, AlertTriangle, TrendingUp } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 
 export default function Dashboard() {
+  const { user } = useAuth()
+  const [userName, setUserName] = useState('')
   const [stats, setStats] = useState({
     totalProducts: 0,
     lowStock: 0,
@@ -15,6 +18,31 @@ export default function Dashboard() {
   const [recentProducts, setRecentProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [categoryData, setCategoryData] = useState([])
+
+  useEffect(() => {
+    fetchUserName()
+  }, [user])
+
+  const fetchUserName = async () => {
+    if (!user) return
+    
+    try {
+      const { data } = await supabase
+        .from('profiles')
+        .select('full_name')
+        .eq('id', user.id)
+        .single()
+      
+      if (data?.full_name) {
+        setUserName(data.full_name)
+      } else {
+        setUserName(user.email?.split('@')[0] || 'User')
+      }
+    } catch (error) {
+      console.error('Error fetching user name:', error)
+      setUserName(user.email?.split('@')[0] || 'User')
+    }
+  }
 
   useEffect(() => {
     fetchDashboardData()
@@ -62,11 +90,40 @@ export default function Dashboard() {
 
   if (loading) return <Loading size="lg" />
 
+  const currentHour = new Date().getHours()
+  const greeting = currentHour < 12 ? 'Good Morning' : currentHour < 18 ? 'Good Afternoon' : 'Good Evening'
+
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-4xl font-black uppercase">Dashboard</h1>
+      {/* Welcome Section */}
+      <div className="bg-gradient-to-r from-blue-500 to-purple-600 border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+        <h1 className="text-4xl font-black uppercase text-white mb-2">{greeting}, {userName}!</h1>
+        <p className="text-white text-lg font-semibold">Welcome to your inventory dashboard</p>
       </div>
+
+      {/* Important Alerts */}
+      {(stats.outOfStock > 0 || stats.lowStock > 0) && (
+        <Card className="bg-orange-100 border-4 border-black">
+          <div className="flex items-start gap-4">
+            <div className="p-3 bg-orange-500 border-2 border-black">
+              <AlertTriangle size={32} color="white" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-black uppercase mb-2">⚠️ Attention Required</h2>
+              {stats.outOfStock > 0 && (
+                <p className="font-bold text-red-600 mb-1">
+                  • {stats.outOfStock} product{stats.outOfStock > 1 ? 's are' : ' is'} completely out of stock!
+                </p>
+              )}
+              {stats.lowStock > 0 && (
+                <p className="font-bold text-orange-600">
+                  • {stats.lowStock} product{stats.lowStock > 1 ? 's are' : ' is'} running low on stock
+                </p>
+              )}
+            </div>
+          </div>
+        </Card>
+      )}
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -75,6 +132,7 @@ export default function Dashboard() {
             <div>
               <p className="text-sm font-bold uppercase text-gray-700">Total Products</p>
               <p className="text-4xl font-black mt-2">{stats.totalProducts}</p>
+              <p className="text-xs text-gray-600 mt-1">Items in inventory</p>
             </div>
             <div className="p-4 bg-blue-500 border-2 border-black">
               <Package size={32} color="white" />
@@ -85,8 +143,9 @@ export default function Dashboard() {
         <Card className="bg-green-300">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-bold uppercase text-gray-700">Total Value</p>
-              <p className="text-4xl font-black mt-2">${stats.totalValue.toFixed(2)}</p>
+              <p className="text-sm font-bold uppercase text-gray-700">Inventory Value</p>
+              <p className="text-4xl font-black mt-2">${stats.totalValue.toFixed(0)}</p>
+              <p className="text-xs text-gray-600 mt-1">Total stock worth</p>
             </div>
             <div className="p-4 bg-green-500 border-2 border-black">
               <ShoppingCart size={32} color="white" />
@@ -99,6 +158,7 @@ export default function Dashboard() {
             <div>
               <p className="text-sm font-bold uppercase text-gray-700">Low Stock</p>
               <p className="text-4xl font-black mt-2">{stats.lowStock}</p>
+              <p className="text-xs text-gray-600 mt-1">Needs reordering</p>
             </div>
             <div className="p-4 bg-orange-500 border-2 border-black">
               <AlertTriangle size={32} color="white" />
@@ -111,6 +171,7 @@ export default function Dashboard() {
             <div>
               <p className="text-sm font-bold uppercase text-gray-700">Out of Stock</p>
               <p className="text-4xl font-black mt-2">{stats.outOfStock}</p>
+              <p className="text-xs text-gray-600 mt-1">Urgent action needed</p>
             </div>
             <div className="p-4 bg-red-500 border-2 border-black">
               <TrendingUp size={32} color="white" />

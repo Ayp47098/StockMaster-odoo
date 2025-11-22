@@ -131,9 +131,9 @@ export default function Suppliers() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-4xl font-black uppercase">Suppliers</h1>
-        <Button variant="primary" onClick={() => handleOpenModal()}>
-          <Plus size={20} className="mr-2" />
-          Add Supplier
+        <Button variant="primary" onClick={() => handleOpenModal()} className="flex items-center gap-2">
+          <Plus size={20} />
+          <span>Add Supplier</span>
         </Button>
       </div>
 
@@ -185,18 +185,18 @@ export default function Suppliers() {
                 <Button 
                   variant="primary" 
                   onClick={() => handleOpenModal(supplier)}
-                  className="flex-1"
+                  className="flex-1 flex items-center justify-center gap-2"
                 >
-                  <Edit size={16} className="mr-2" />
-                  Edit
+                  <Edit size={16} />
+                  <span>Edit</span>
                 </Button>
                 <Button 
                   variant="danger" 
                   onClick={() => handleDelete(supplier.id)}
-                  className="flex-1"
+                  className="flex-1 flex items-center justify-center gap-2"
                 >
-                  <Trash2 size={16} className="mr-2" />
-                  Delete
+                  <Trash2 size={16} />
+                  <span>Delete</span>
                 </Button>
               </div>
             </Card>

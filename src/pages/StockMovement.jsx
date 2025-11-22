@@ -139,9 +139,9 @@ export default function StockMovement() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-4xl font-black uppercase">Stock Movement</h1>
-        <Button variant="primary" onClick={handleOpenModal}>
-          <Plus size={20} className="mr-2" />
-          Record Movement
+        <Button variant="primary" onClick={handleOpenModal} className="flex items-center gap-2">
+          <Plus size={20} />
+          <span>Record Movement</span>
         </Button>
       </div>
 

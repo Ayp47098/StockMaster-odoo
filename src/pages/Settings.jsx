@@ -5,17 +5,12 @@ import { Card } from '../components/ui/Card'
 import { Input } from '../components/ui/Input'
 import { Button } from '../components/ui/Button'
 import { Alert } from '../components/ui/Alert'
-import { User, Lock } from 'lucide-react'
+import { User, Database } from 'lucide-react'
 
 export default function Settings() {
   const { user } = useAuth()
   const [profile, setProfile] = useState({
-    full_name: '',
-    email: ''
-  })
-  const [passwords, setPasswords] = useState({
-    newPassword: '',
-    confirmPassword: ''
+    full_name: ''
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -37,8 +32,7 @@ export default function Settings() {
       
       if (data) {
         setProfile({
-          full_name: data.full_name || '',
-          email: data.email || user.email
+          full_name: data.full_name || ''
         })
       }
     } catch (error) {
@@ -49,6 +43,7 @@ export default function Settings() {
   const handleUpdateProfile = async (e) => {
     e.preventDefault()
     setError('')
+    setSuccess('')
     setLoading(true)
     
     try {
@@ -71,38 +66,6 @@ export default function Settings() {
     }
   }
 
-  const handleUpdatePassword = async (e) => {
-    e.preventDefault()
-    setError('')
-    
-    if (passwords.newPassword !== passwords.confirmPassword) {
-      return setError('Passwords do not match')
-    }
-    
-    if (passwords.newPassword.length < 6) {
-      return setError('Password must be at least 6 characters')
-    }
-    
-    setLoading(true)
-    
-    try {
-      const { error: updateError } = await supabase.auth.updateUser({
-        password: passwords.newPassword
-      })
-      
-      if (updateError) throw updateError
-      
-      setSuccess('Password updated successfully!')
-      setPasswords({ newPassword: '', confirmPassword: '' })
-      setTimeout(() => setSuccess(''), 3000)
-    } catch (error) {
-      console.error('Error updating password:', error)
-      setError('Failed to update password')
-    } finally {
-      setLoading(false)
-    }
-  }
-
   return (
     <div className="space-y-6 max-w-4xl">
       <h1 className="text-4xl font-black uppercase">Settings</h1>
@@ -119,19 +82,20 @@ export default function Settings() {
           <h2 className="text-2xl font-bold uppercase">Profile Information</h2>
         </div>
         
-        <form onSubmit={handleUpdateProfile}>
+        <form onSubmit={handleUpdateProfile} className="space-y-4">
           <Input
             label="Full Name"
             value={profile.full_name}
             onChange={(e) => setProfile({ ...profile, full_name: e.target.value })}
+            placeholder="Enter your full name"
+            required
           />
           
-          <Input
-            label="Email"
-            value={profile.email}
-            disabled
-            className="bg-gray-100 cursor-not-allowed"
-          />
+          <div className="p-4 bg-white border-2 border-black rounded">
+            <p className="font-bold text-sm text-gray-700 mb-1">Email</p>
+            <p className="font-mono text-sm text-gray-600">{user?.email}</p>
+            <p className="text-xs text-gray-500 mt-1">Email cannot be changed</p>
+          </div>
           
           <Button 
             type="submit" 
@@ -143,57 +107,28 @@ export default function Settings() {
         </form>
       </Card>
 
-      {/* Password Settings */}
-      <Card className="bg-orange-100">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="p-3 bg-orange-500 border-2 border-black">
-            <Lock size={24} color="white" />
-          </div>
-          <h2 className="text-2xl font-bold uppercase">Change Password</h2>
-        </div>
-        
-        <form onSubmit={handleUpdatePassword}>
-          <Input
-            type="password"
-            label="New Password"
-            value={passwords.newPassword}
-            onChange={(e) => setPasswords({ ...passwords, newPassword: e.target.value })}
-            placeholder="••••••••"
-          />
-          
-          <Input
-            type="password"
-            label="Confirm Password"
-            value={passwords.confirmPassword}
-            onChange={(e) => setPasswords({ ...passwords, confirmPassword: e.target.value })}
-            placeholder="••••••••"
-          />
-          
-          <Button 
-            type="submit" 
-            variant="warning"
-            disabled={loading}
-          >
-            {loading ? 'Updating...' : 'Update Password'}
-          </Button>
-        </form>
-      </Card>
-
       {/* Database Info */}
       <Card className="bg-green-100">
-        <h2 className="text-2xl font-bold uppercase mb-4">Database Information</h2>
-        <div className="space-y-2">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="p-3 bg-green-500 border-2 border-black">
+            <Database size={24} color="white" />
+          </div>
+          <h2 className="text-2xl font-bold uppercase">Database Information</h2>
+        </div>
+        <div className="space-y-3">
           <div className="p-4 bg-white border-2 border-black">
-            <p className="font-bold">User ID</p>
-            <p className="font-mono text-sm">{user?.id}</p>
+            <p className="font-bold text-sm text-gray-700 mb-1">User ID</p>
+            <p className="font-mono text-sm break-all">{user?.id}</p>
           </div>
           <div className="p-4 bg-white border-2 border-black">
-            <p className="font-bold">Email</p>
+            <p className="font-bold text-sm text-gray-700 mb-1">Email</p>
             <p className="font-mono text-sm">{user?.email}</p>
           </div>
           <div className="p-4 bg-white border-2 border-black">
-            <p className="font-bold">Database Status</p>
-            <p className="text-green-600 font-bold">✓ Connected to Supabase</p>
+            <p className="font-bold text-sm text-gray-700 mb-1">Database Status</p>
+            <p className="text-green-600 font-bold flex items-center gap-2">
+              <span className="text-2xl">✓</span> Connected to Supabase
+            </p>
           </div>
         </div>
       </Card>
