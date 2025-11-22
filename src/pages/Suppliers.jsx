@@ -20,8 +20,7 @@ export default function Suppliers() {
     name: '',
     email: '',
     phone: '',
-    address: '',
-    contact_person: ''
+    address: ''
   })
 
   useEffect(() => {
@@ -52,8 +51,7 @@ export default function Suppliers() {
         name: supplier.name,
         email: supplier.email || '',
         phone: supplier.phone || '',
-        address: supplier.address || '',
-        contact_person: supplier.contact_person || ''
+        address: supplier.address || ''
       })
     } else {
       setEditingSupplier(null)
@@ -61,8 +59,7 @@ export default function Suppliers() {
         name: '',
         email: '',
         phone: '',
-        address: '',
-        contact_person: ''
+        address: ''
       })
     }
     setModalOpen(true)
@@ -152,13 +149,6 @@ export default function Suppliers() {
               <h3 className="text-xl font-bold mb-4">{supplier.name}</h3>
               
               <div className="space-y-2 mb-4">
-                {supplier.contact_person && (
-                  <div className="flex items-center gap-2">
-                    <span className="font-bold">Contact:</span>
-                    <span>{supplier.contact_person}</span>
-                  </div>
-                )}
-                
                 {supplier.email && (
                   <div className="flex items-center gap-2">
                     <Mail size={16} />
@@ -226,12 +216,6 @@ export default function Suppliers() {
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             required
-          />
-          
-          <Input
-            label="Contact Person"
-            value={formData.contact_person}
-            onChange={(e) => setFormData({ ...formData, contact_person: e.target.value })}
           />
           
           <Input
