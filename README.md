@@ -221,7 +221,7 @@ MIT License - feel free to use this project for learning and development.
 
 ## 🎯 Hackathon Submission
 
-**Team:** [Your Team Name]  
+**Team:** CodeStorm  
 **Event:** Odoo x SPIT Hackathon 25  
 **Category:** Inventory Management System  
 **Design Theme:** Neubrutalism  
